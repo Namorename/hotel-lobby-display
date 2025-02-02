@@ -4,17 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hotel Lobby Screen</title>
+  <!-- Google Fonts для улучшения типографики -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <!-- Подключаем стили -->
   <link rel="stylesheet" href="css/styles.css" />
-  <!-- Подключаем скрипт LottiePlayer -->
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <!-- Асинхронная загрузка LottiePlayer -->
+  <script async src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
-<body>
+<body class="light-theme">
   <div class="container">
 
     <!-- LEFT: Slideshow -->
     <div class="slideshow-container">
-      <img id="slideshow-image" src="" alt="Slideshow" />
+      <img id="slideshow-image" src="" alt="Slideshow" loading="lazy" />
     </div>
 
     <!-- RIGHT: Time, Weather, Services -->
@@ -22,7 +24,7 @@
       <div class="weather-block">
         <div id="current-time"></div>
         <div id="weather-info">
-          <!-- Lottie player for animated weather icons -->
+          <!-- Lottie player для анимации погоды -->
           <lottie-player
             id="weather-lottie"
             background="transparent"
@@ -31,8 +33,7 @@
             autoplay
           ></lottie-player>
 
-          <!-- OpenWeather icon (если хотите дополнительную статичную иконку)
-               или можно убрать этот блок совсем. -->
+          <!-- Статичная иконка погоды -->
           <div id="weather-icon"></div>
 
           <div id="weather-temp"></div>
@@ -42,18 +43,14 @@
 
       <div class="services-block">
         <h3>Our Services</h3>
-        <ul>
-          <li onclick="changeSlideshow('default')">Default</li>
-          <li onclick="changeSlideshow('service1')">Service 1</li>
-          <li onclick="changeSlideshow('service2')">Service 2</li>
-          <li onclick="changeSlideshow('service3')">Service 3</li>
-          <li onclick="changeSlideshow('service4')">Service 4</li>
+        <ul id="services-list">
+          <!-- Список услуг будет сформирован динамически -->
         </ul>
       </div>
     </div>
   </div>
-
-  <!-- Основной скрипт -->
-  <script src="js/scripts.js"></script>
+  
+  <!-- Основной скрипт (ES-модуль) -->
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

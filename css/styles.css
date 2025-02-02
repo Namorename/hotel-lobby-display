@@ -1,110 +1,134 @@
+/* Основные стили */
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #eee;
-  }
-  
-  .container {
+    font-family: 'Roboto', sans-serif;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+/* Light theme – дневная тема */
+body.light-theme {
+    background-color: #e0f2e9; /* светло-зелёный фон */
+    color: #013220;
+}
+
+/* Dark theme – вечерняя тема */
+body.dark-theme {
+    background-color: #013220; /* тёмно-зелёный фон */
+    color: #e0f2e9;
+}
+
+.container {
     display: flex;
     flex-direction: row;
     width: 100vw;
     height: 100vh;
-  }
-  
-  /* SLIDESHOW (left side) */
-  .slideshow-container {
+}
+
+/* SLIDESHOW (левая часть) */
+.slideshow-container {
     flex: 2;
     position: relative;
     overflow: hidden;
-    background-color: #ccc;
+    background-color: #002d1a;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  #slideshow-image {
+}
+
+#slideshow-image {
     max-width: 100%;
     max-height: 100%;
     transition: opacity 1s ease-in-out;
-  }
-  
-  /* RIGHT PANEL */
-  .right-panel {
+}
+
+/* RIGHT PANEL */
+.right-panel {
     flex: 1;
-    background-color: #999;
+    background-color: #024d2c;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
-  }
-  
-  /* WEATHER BLOCK */
-  .weather-block {
-    background-color: #aaa;
+}
+
+/* WEATHER BLOCK */
+.weather-block {
+    background-color: rgba(0, 0, 0, 0.2);
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 10px;
     text-align: center;
-  }
-  
-  #current-time {
-    font-size: 2em;
+}
+
+#current-time {
+    font-size: 2.5em;
     margin-bottom: 10px;
-  }
-  
-  #weather-info {
+}
+
+#weather-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  #weather-icon {
+}
+
+#weather-icon {
     width: 60px;
     height: 60px;
     background-size: contain;
     background-repeat: no-repeat;
     margin-bottom: 10px;
-  }
-  
-  #weather-temp {
-    font-size: 2em;
+}
+
+#weather-temp {
+    font-size: 2.5em;
     font-weight: bold;
     margin-bottom: 5px;
-  }
-  
-  #weather-desc {
-    font-size: 1.2em;
+}
+
+#weather-desc {
+    font-size: 1.3em;
     font-style: italic;
-  }
-  
-  /* SERVICES */
-  .services-block {
-    background-color: #bbb;
+}
+
+/* SERVICES */
+.services-block {
+    background-color: rgba(0, 0, 0, 0.2);
     padding: 10px;
     border-radius: 10px;
-  }
-  
-  .services-block h3 {
+}
+
+.services-block h3 {
     margin-top: 0;
-  }
-  
-  .services-block ul {
+}
+
+.services-block ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-  }
-  
-  .services-block li {
+}
+
+.services-block li {
     padding: 8px;
     margin-bottom: 5px;
-    background-color: #ccc;
+    background-color: rgba(255,255,255,0.2);
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s;
-  }
-  
-  .services-block li:hover {
-    background-color: #ddd;
-  }
-  
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.services-block li:hover {
+    background-color: rgba(255,255,255,0.3);
+    transform: scale(1.02);
+}
+
+/* Адаптивная верстка */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .slideshow-container, .right-panel {
+        flex: none;
+        height: 50vh;
+    }
+}
