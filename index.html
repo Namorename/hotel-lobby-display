@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="cz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hotel Lobby Screen</title>
+  <!-- Подключаем стили -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Для анимаций (необязательно) -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" /> -->
+</head>
+<body>
+  <div class="container">
+
+    <!-- Левый блок: Слайд-шоу -->
+    <div class="slideshow-container">
+      <img id="slideshow-image" src="" alt="Slideshow" />
+    </div>
+
+    <!-- Правый блок: Погода, время, услуги -->
+    <div class="right-panel">
+      <div class="weather-block">
+        <div id="current-time"></div>
+        <div id="weather-info">
+          <div id="weather-icon"></div>
+          <div id="weather-temp"></div>
+          <div id="weather-desc"></div>
+        </div>
+      </div>
+
+      <div class="services-block">
+        <h3>Список услуг</h3>
+        <ul>
+          <li onclick="changeSlideshow('default')">Default</li>
+          <li onclick="changeSlideshow('service1')">Service 1</li>
+          <li onclick="changeSlideshow('service2')">Service 2</li>
+          <li onclick="changeSlideshow('service3')">Service 3</li>
+          <li onclick="changeSlideshow('service4')">Service 4</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Подключаем скрипты -->
+  <script src="js/scripts.js"></script>
+</body>
+</html>

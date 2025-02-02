@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #eee;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  /* Слайд-шоу слева */
+  .slideshow-container {
+    flex: 2;
+    position: relative;
+    overflow: hidden;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #slideshow-image {
+    max-width: 100%;
+    max-height: 100%;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  /* Правый блок */
+  .right-panel {
+    flex: 1;
+    background-color: #999;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  /* Погода / Время */
+  .weather-block {
+    background-color: #aaa;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  #current-time {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  #weather-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Иконка погоды можно делать фоном или img */
+  #weather-icon {
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-bottom: 10px;
+  }
+  
+  #weather-temp {
+    font-size: 2em;
+    font-weight: bold;
+  }
+  
+  #weather-desc {
+    font-size: 1.2em;
+    font-style: italic;
+  }
+  
+  /* Услуги */
+  .services-block {
+    background-color: #bbb;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .services-block h3 {
+    margin-top: 0;
+  }
+  
+  .services-block ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .services-block li {
+    padding: 8px;
+    margin-bottom: 5px;
+    background-color: #ccc;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .services-block li:hover {
+    background-color: #ddd;
+  }
+  
