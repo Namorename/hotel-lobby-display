@@ -1,8 +1,5 @@
-/************************************************
- * Global Variables
- ************************************************/
-let apiKey = "YOUR_OPENWEATHER_API_KEY"; // вставьте сюда реальный ключ
-// OpenWeather ID для Праги: 3067696 (или используйте lat/lon)
+let apiKey = "7dfc742a5b9732ab37ea132e20a436ad";
+
 let cityId = "3067696";
 
 let slidesDefault = [
