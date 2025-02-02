@@ -1,72 +1,159 @@
-/*******************
- * Глобальные переменные
- *******************/
-let apiKey = "7dfc742a5b9732ab37ea132e20a436ad"; // вставить сюда
-let cityId = "524901"; // Пример: id Москвы, смотрите документацию
+/************************************************
+ * Global Variables
+ ************************************************/
+let apiKey = "YOUR_OPENWEATHER_API_KEY"; // вставьте сюда реальный ключ
+// OpenWeather ID для Праги: 3067696 (или используйте lat/lon)
+let cityId = "3067696";
 
-// Настройки слайд-шоу
 let slidesDefault = [
   "images/default1.jpg",
   "images/default2.jpg",
   "images/default3.jpg"
 ];
-
 let slidesService1 = [
   "images/service1_1.jpg",
   "images/service1_2.jpg"
 ];
+// ... и т.д. для остальных сервисов
 
-// ... аналогично для service2, service3, service4
-
-// Текущее состояние
 let currentSlideArray = slidesDefault;
 let currentSlideIndex = 0;
 
-/*******************
- * Функции
- *******************/
-
-// Обновление текущего времени каждую секунду
+/************************************************
+ * Time and Weather
+ ************************************************/
+// Показываем время (часы:минуты:секунды)
 function updateTime() {
   let now = new Date();
-  let hours = now.getHours().toString().padStart(2, "0");
-  let minutes = now.getMinutes().toString().padStart(2, "0");
-  // Можно добавить секунды, если нужно
-  // let seconds = now.getSeconds().toString().padStart(2, "0");
-  // document.getElementById("current-time").textContent = `${hours}:${minutes}:${seconds}`;
-  document.getElementById("current-time").textContent = `${hours}:${minutes}`;
+  let hh = String(now.getHours()).padStart(2, "0");
+  let mm = String(now.getMinutes()).padStart(2, "0");
+  let ss = String(now.getSeconds()).padStart(2, "0");
+  document.getElementById("current-time").textContent = `${hh}:${mm}:${ss}`;
 }
 
-// Получение данных о погоде
 async function fetchWeather() {
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?id=${cityId}&units=metric&lang=ru&appid=${apiKey}`
+      `https://api.openweathermap.org/data/2.5/weather?id=${cityId}&units=metric&lang=en&appid=${apiKey}`
     );
     const data = await response.json();
     updateWeatherUI(data);
-  } catch (error) {
-    console.error("Ошибка при получении погоды:", error);
+  } catch (err) {
+    console.error("Error fetching weather:", err);
   }
 }
 
-// Обновление UI погоды
 function updateWeatherUI(data) {
-  // Температура, описание, иконка
-  const temp = Math.round(data.main.temp);
-  const desc = data.weather[0].description;
-  const icon = data.weather[0].icon; // Иконка типа 02d, 10n и т.д.
+  let temp = Math.round(data.main.temp);
+  let desc = data.weather[0].description; // "light rain", "clear sky", etc.
+  let icon = data.weather[0].icon;
+  let mainWeather = data.weather[0].main.toLowerCase(); // "rain", "clouds", "clear", "snow", "thunderstorm", ...
 
+  // Обновим текстовые блоки
   document.getElementById("weather-temp").textContent = temp + "°C";
   document.getElementById("weather-desc").textContent = desc;
+  document.getElementById("weather-icon").style.backgroundImage =
+    `url(https://openweathermap.org/img/wn/${icon}@2x.png)`;
 
-  // Установка иконки (OpenWeatherMap)
-  // Например, так: http://openweathermap.org/img/wn/10d@2x.png
-  const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-  document.getElementById("weather-icon").style.backgroundImage = `url(${iconUrl})`;
+  // Запустим анимацию
+  renderWeatherAnimation(mainWeather);
 }
 
-// Запуск слайд-шоу (каждые 5 секунд меняется картинка)
+/************************************************
+ * Weather Animations (Dynamic DOM)
+ ************************************************/
+function renderWeatherAnimation(weatherType) {
+  const container = document.getElementById("weather-animation");
+  // Сначала очистим контейнер от старых элементов
+  container.innerHTML = "";
+
+  switch (true) {
+    case weatherType.includes("rain"):
+      createRain(container, 20);
+      break;
+    case weatherType.includes("cloud"):
+      createClouds(container, 3);
+      break;
+    case weatherType.includes("clear"):
+      createSun(container);
+      break;
+    case weatherType.includes("snow"):
+      createSnow(container, 15);
+      break;
+    case weatherType.includes("thunder"):
+      createClouds(container, 2);
+      createLightning(container);
+      break;
+    default:
+      // Если ничего не подходит — можно сделать «clear»
+      createSun(container);
+      break;
+  }
+}
+
+/** Создаём капли дождя */
+function createRain(container, dropsCount) {
+  for (let i = 0; i < dropsCount; i++) {
+    let drop = document.createElement("div");
+    drop.className = "raindrop";
+    // Рандомная позиция (left)
+    drop.style.left = Math.random() * 100 + "px";
+    // Рандомная задержка анимации
+    drop.style.animationDelay = Math.random() * 0.5 + "s";
+    // Добавляем в контейнер
+    container.appendChild(drop);
+  }
+}
+
+/** Создаём облака */
+function createClouds(container, cloudCount) {
+  for (let i = 0; i < cloudCount; i++) {
+    let cloud = document.createElement("div");
+    cloud.className = "cloud";
+    // Рандомный top (чтобы облака не шли ровно в одну линию)
+    cloud.style.top = (20 + Math.random() * 40) + "px";
+    // Добавляем
+    container.appendChild(cloud);
+  }
+}
+
+/** Создаём солнце и лучи */
+function createSun(container) {
+  let sun = document.createElement("div");
+  sun.className = "sun";
+  container.appendChild(sun);
+
+  // Можно добавить «лучи» — например, один элемент, который крутится:
+  let rays = document.createElement("div");
+  rays.className = "sun-ray";
+  container.appendChild(rays);
+}
+
+/** Создаём снежинки (используем символ "❄" или "•") */
+function createSnow(container, flakeCount) {
+  for (let i = 0; i < flakeCount; i++) {
+    let flake = document.createElement("div");
+    flake.className = "snowflake";
+    flake.textContent = "❄"; // любой символ снежинки
+    // Рандомная горизонтальная позиция
+    flake.style.left = Math.random() * 100 + "px";
+    // Рандомная задержка
+    flake.style.animationDelay = Math.random() * 2 + "s";
+    // Добавляем
+    container.appendChild(flake);
+  }
+}
+
+/** Создаём молнию */
+function createLightning(container) {
+  let lightning = document.createElement("div");
+  lightning.className = "lightning";
+  container.appendChild(lightning);
+}
+
+/************************************************
+ * Slideshow
+ ************************************************/
 function startSlideshow() {
   setInterval(() => {
     currentSlideIndex++;
@@ -77,30 +164,24 @@ function startSlideshow() {
   }, 5000);
 }
 
-// Показ одной картинки
 function showSlide(index) {
   const slideshowImage = document.getElementById("slideshow-image");
-  // Плавно скрываем (opacity=0), меняем src, потом показываем (opacity=1)
+  // Fade out
   slideshowImage.style.opacity = 0;
-
   setTimeout(() => {
     slideshowImage.src = currentSlideArray[index];
+    // Fade in
     slideshowImage.style.opacity = 1;
-  }, 1000); // 1с — таймер совпадает с transition: opacity 1s
+  }, 1000);
 }
 
-// Смена набора слайдов (при клике на услугу)
 function changeSlideshow(serviceName) {
   switch (serviceName) {
     case "service1":
       currentSlideArray = slidesService1;
       break;
-    // case "service2": currentSlideArray = slidesService2; ...
-    // case "service3": currentSlideArray = slidesService3; ...
-    // и т.д.
-
+    // service2, etc.
     default:
-      // "default" или любое другое
       currentSlideArray = slidesDefault;
       break;
   }
@@ -108,21 +189,20 @@ function changeSlideshow(serviceName) {
   showSlide(currentSlideIndex);
 }
 
-/*******************
- * События при загрузке страницы
- *******************/
+/************************************************
+ * On Page Load
+ ************************************************/
 window.addEventListener("load", () => {
-  // Запустить время
+  // Start clock (update every second)
   updateTime();
-  setInterval(updateTime, 60000); // Обновлять раз в минуту
+  setInterval(updateTime, 1000);
 
-  // Получить погоду
+  // Fetch weather
   fetchWeather();
-  // Можно добавить периодическое обновление (например, каждые 30 мин)
+  // Update weather every 30 minutes
   setInterval(fetchWeather, 30 * 60 * 1000);
 
-  // Показать первый слайд
+  // Slideshow
   showSlide(currentSlideIndex);
-  // Запустить слайд-шоу
   startSlideshow();
 });

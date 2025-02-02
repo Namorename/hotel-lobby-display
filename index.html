@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hotel Lobby Screen</title>
-  <!-- Подключаем стили -->
   <link rel="stylesheet" href="css/styles.css" />
-  <!-- Для анимаций (необязательно) -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" /> -->
 </head>
 <body>
   <div class="container">
 
-    <!-- Левый блок: Слайд-шоу -->
+    <!-- LEFT: Slideshow -->
     <div class="slideshow-container">
       <img id="slideshow-image" src="" alt="Slideshow" />
     </div>
 
-    <!-- Правый блок: Погода, время, услуги -->
+    <!-- RIGHT: Time, Weather, Services -->
     <div class="right-panel">
       <div class="weather-block">
         <div id="current-time"></div>
         <div id="weather-info">
+          <!-- This container will hold the weather animation elements -->
+          <div id="weather-animation"></div>
+
+          <!-- OpenWeather icon -->
           <div id="weather-icon"></div>
           <div id="weather-temp"></div>
           <div id="weather-desc"></div>
@@ -29,7 +30,7 @@
       </div>
 
       <div class="services-block">
-        <h3>Our services</h3>
+        <h3>Our Services</h3>
         <ul>
           <li onclick="changeSlideshow('default')">Default</li>
           <li onclick="changeSlideshow('service1')">Service 1</li>
@@ -41,7 +42,6 @@
     </div>
   </div>
 
-  <!-- Подключаем скрипты -->
   <script src="js/scripts.js"></script>
 </body>
 </html>
