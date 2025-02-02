@@ -38,12 +38,12 @@ function showSlide(index) {
   const slideshowImage = document.getElementById("slideshow-image");
   if (!slideshowImage) return;
   
-  // Плавное затухание
+  // Плавное затухание с переходом 0.5s
   slideshowImage.style.opacity = 0;
   setTimeout(() => {
     slideshowImage.src = currentSlides[index];
     slideshowImage.style.opacity = 1;
-  }, 300);
+  }, 500); // задержка 500 мс для плавности
 }
 
 /**
