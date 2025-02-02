@@ -58,12 +58,12 @@ function renderWeatherAnimation(mainWeather) {
   if (!player) return;
 
   const lottieAnimations = {
-    rain:    "https://assets1.lottiefiles.com/packages/lf20_rvxnwkby.json",
-    clouds:  "https://assets7.lottiefiles.com/packages/lf20_kxsd2ytq.json",
+    rain:    "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
+    clouds:  "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
     clear:   "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
-    snow:    "https://assets2.lottiefiles.com/packages/lf20_vp7fnjpx.json",
-    thunder: "https://assets5.lottiefiles.com/packages/lf20_mYarDp.json",
-    default: "https://assets8.lottiefiles.com/packages/lf20_knvn7l9g.json"
+    snow:    "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
+    thunder: "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
+    default: "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json"
   };
 
   if (mainWeather.includes("rain")) {
