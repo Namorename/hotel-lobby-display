@@ -60,15 +60,17 @@ function renderWeatherAnimation(mainWeather) {
     if (mainWeather.includes("rain")) {
       player.load("animations/rain.json"); 
     } else if (mainWeather.includes("cloud")) {
-      player.load("animations/rain.json"); 
+      player.load("animations/cloud.json"); 
     } else if (mainWeather.includes("clear")) {
-      player.load("animations/rain.json");
+      player.load("animations/clear.json");
     } else if (mainWeather.includes("snow")) {
-      player.load("animations/rain.json");
+      player.load("animations/snow.json");
     } else if (mainWeather.includes("thunder")) {
-      player.load("animations/rain.json");
+      player.load("animations/thunder.json");
+    } else if (mainWeather.includes("fog")) {
+        player.load("animations/fog.json");
     } else {
-      player.load("animations/rain.json");
+      player.load("animations/cloud.json");
     }
 
 }

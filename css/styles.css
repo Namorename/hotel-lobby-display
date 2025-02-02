@@ -2,13 +2,13 @@
 :root {
     /* Светлая тема */
     --bg-light: #e0f2e9;
-    --text-light: #013220;
+    --text-light: #222222;         /* более тёмный текст для светлой темы */
     --panel-light: #024d2c;
     --block-light: rgba(0, 0, 0, 0.15);
     
     /* Тёмная тема */
     --bg-dark: #013220;
-    --text-dark: #e0f2e9;
+    --text-dark: #f5f5f5;            /* светлый текст для тёмной темы */
     --panel-dark: #024d2c;
     --block-dark: rgba(255, 255, 255, 0.15);
   }
@@ -65,7 +65,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* Для тёмной темы будем переопределять фон */
   }
   
   body.dark-theme .right-panel {
@@ -90,7 +89,8 @@
   #current-time {
     font-size: 2.5em;
     margin-bottom: 10px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    /* Добавлен лёгкий text-shadow для улучшения читаемости */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
   }
   
   #weather-info {
@@ -111,13 +111,13 @@
     font-size: 2.5em;
     font-weight: bold;
     margin-bottom: 5px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
   }
   
   #weather-desc {
     font-size: 1.3em;
     font-style: italic;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
   }
   
   /* SERVICES */
@@ -135,7 +135,7 @@
   
   .services-block h3 {
     margin-top: 0;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
   }
   
   .services-block ul {
@@ -151,7 +151,7 @@
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s, transform 0.3s;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
   }
   
   .services-block li:hover {
