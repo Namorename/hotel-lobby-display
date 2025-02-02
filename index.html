@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hotel Lobby Screen</title>
+  <!-- Подключаем стили -->
   <link rel="stylesheet" href="css/styles.css" />
+  <!-- Подключаем скрипт LottiePlayer -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 <body>
   <div class="container">
@@ -19,11 +22,19 @@
       <div class="weather-block">
         <div id="current-time"></div>
         <div id="weather-info">
-          <!-- This container will hold the weather animation elements -->
-          <div id="weather-animation"></div>
+          <!-- Lottie player for animated weather icons -->
+          <lottie-player
+            id="weather-lottie"
+            background="transparent"
+            speed="1"
+            style="width: 120px; height: 120px;"
+            autoplay
+          ></lottie-player>
 
-          <!-- OpenWeather icon -->
+          <!-- OpenWeather icon (если хотите дополнительную статичную иконку)
+               или можно убрать этот блок совсем. -->
           <div id="weather-icon"></div>
+
           <div id="weather-temp"></div>
           <div id="weather-desc"></div>
         </div>
@@ -42,6 +53,7 @@
     </div>
   </div>
 
+  <!-- Основной скрипт -->
   <script src="js/scripts.js"></script>
 </body>
 </html>

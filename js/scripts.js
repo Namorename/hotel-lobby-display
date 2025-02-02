@@ -1,7 +1,7 @@
-let apiKey = "7dfc742a5b9732ab37ea132e20a436ad";
+let apiKey = "7dfc742a5b9732ab37ea132e20a436ad"; 
+let cityId = "3067696"; 
 
-let cityId = "3067696";
-
+// Slideshow arrays
 let slidesDefault = [
   "images/default1.jpg",
   "images/default2.jpg",
@@ -11,15 +11,14 @@ let slidesService1 = [
   "images/service1_1.jpg",
   "images/service1_2.jpg"
 ];
-// ... и т.д. для остальных сервисов
+// etc. for service2, service3, ...
 
 let currentSlideArray = slidesDefault;
 let currentSlideIndex = 0;
 
 /************************************************
- * Time and Weather
+ * TIME AND WEATHER
  ************************************************/
-// Показываем время (часы:минуты:секунды)
 function updateTime() {
   let now = new Date();
   let hh = String(now.getHours()).padStart(2, "0");
@@ -42,114 +41,59 @@ async function fetchWeather() {
 
 function updateWeatherUI(data) {
   let temp = Math.round(data.main.temp);
-  let desc = data.weather[0].description; // "light rain", "clear sky", etc.
-  let icon = data.weather[0].icon;
-  let mainWeather = data.weather[0].main.toLowerCase(); // "rain", "clouds", "clear", "snow", "thunderstorm", ...
+  let desc = data.weather[0].description; // e.g. "light rain", "clear sky"
+  let icon = data.weather[0].icon;        // e.g. 10d
+  let mainWeather = data.weather[0].main.toLowerCase(); // "rain", "clouds", "clear" ...
 
-  // Обновим текстовые блоки
+  // Display text info
   document.getElementById("weather-temp").textContent = temp + "°C";
   document.getElementById("weather-desc").textContent = desc;
-  document.getElementById("weather-icon").style.backgroundImage =
-    `url(https://openweathermap.org/img/wn/${icon}@2x.png)`;
 
-  // Запустим анимацию
+  // Optional: OpenWeather static icon
+  let iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+  document.getElementById("weather-icon").style.backgroundImage = `url(${iconUrl})`;
+
+  // Lottie animations
   renderWeatherAnimation(mainWeather);
 }
 
 /************************************************
- * Weather Animations (Dynamic DOM)
+ * LOTTIE Weather Animations
  ************************************************/
-function renderWeatherAnimation(weatherType) {
-  const container = document.getElementById("weather-animation");
-  // Сначала очистим контейнер от старых элементов
-  container.innerHTML = "";
+function renderWeatherAnimation(mainWeather) {
+  let player = document.getElementById("weather-lottie");
+  if (!player) return;
 
-  switch (true) {
-    case weatherType.includes("rain"):
-      createRain(container, 20);
-      break;
-    case weatherType.includes("cloud"):
-      createClouds(container, 3);
-      break;
-    case weatherType.includes("clear"):
-      createSun(container);
-      break;
-    case weatherType.includes("snow"):
-      createSnow(container, 15);
-      break;
-    case weatherType.includes("thunder"):
-      createClouds(container, 2);
-      createLightning(container);
-      break;
-    default:
-      // Если ничего не подходит — можно сделать «clear»
-      createSun(container);
-      break;
+  // Тут используем ссылки на Lottie-анимации. 
+  // Возьмём какие-то демонстрационные файлы с lottiefiles.com (примерно).
+  // Вы можете подобрать любые на свой вкус:
+  const lottieAnimations = {
+    rain:        "https://assets1.lottiefiles.com/packages/lf20_rvxnwkby.json",
+    clouds:      "https://assets7.lottiefiles.com/packages/lf20_kxsd2ytq.json",
+    clear:       "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
+    snow:        "https://assets2.lottiefiles.com/packages/lf20_vp7fnjpx.json",
+    thunder:     "https://assets5.lottiefiles.com/packages/lf20_mYarDp.json",
+    default:     "https://assets8.lottiefiles.com/packages/lf20_knvn7l9g.json"
+  };
+
+  if (mainWeather.includes("rain")) {
+    player.load(lottieAnimations.rain);
+  } else if (mainWeather.includes("cloud")) {
+    player.load(lottieAnimations.clouds);
+  } else if (mainWeather.includes("clear")) {
+    player.load(lottieAnimations.clear);
+  } else if (mainWeather.includes("snow")) {
+    player.load(lottieAnimations.snow);
+  } else if (mainWeather.includes("thunder")) {
+    player.load(lottieAnimations.thunder);
+  } else {
+    // fallback
+    player.load(lottieAnimations.default);
   }
-}
-
-/** Создаём капли дождя */
-function createRain(container, dropsCount) {
-  for (let i = 0; i < dropsCount; i++) {
-    let drop = document.createElement("div");
-    drop.className = "raindrop";
-    // Рандомная позиция (left)
-    drop.style.left = Math.random() * 100 + "px";
-    // Рандомная задержка анимации
-    drop.style.animationDelay = Math.random() * 0.5 + "s";
-    // Добавляем в контейнер
-    container.appendChild(drop);
-  }
-}
-
-/** Создаём облака */
-function createClouds(container, cloudCount) {
-  for (let i = 0; i < cloudCount; i++) {
-    let cloud = document.createElement("div");
-    cloud.className = "cloud";
-    // Рандомный top (чтобы облака не шли ровно в одну линию)
-    cloud.style.top = (20 + Math.random() * 40) + "px";
-    // Добавляем
-    container.appendChild(cloud);
-  }
-}
-
-/** Создаём солнце и лучи */
-function createSun(container) {
-  let sun = document.createElement("div");
-  sun.className = "sun";
-  container.appendChild(sun);
-
-  // Можно добавить «лучи» — например, один элемент, который крутится:
-  let rays = document.createElement("div");
-  rays.className = "sun-ray";
-  container.appendChild(rays);
-}
-
-/** Создаём снежинки (используем символ "❄" или "•") */
-function createSnow(container, flakeCount) {
-  for (let i = 0; i < flakeCount; i++) {
-    let flake = document.createElement("div");
-    flake.className = "snowflake";
-    flake.textContent = "❄"; // любой символ снежинки
-    // Рандомная горизонтальная позиция
-    flake.style.left = Math.random() * 100 + "px";
-    // Рандомная задержка
-    flake.style.animationDelay = Math.random() * 2 + "s";
-    // Добавляем
-    container.appendChild(flake);
-  }
-}
-
-/** Создаём молнию */
-function createLightning(container) {
-  let lightning = document.createElement("div");
-  lightning.className = "lightning";
-  container.appendChild(lightning);
 }
 
 /************************************************
- * Slideshow
+ * SLIDESHOW
  ************************************************/
 function startSlideshow() {
   setInterval(() => {
@@ -163,11 +107,9 @@ function startSlideshow() {
 
 function showSlide(index) {
   const slideshowImage = document.getElementById("slideshow-image");
-  // Fade out
   slideshowImage.style.opacity = 0;
   setTimeout(() => {
     slideshowImage.src = currentSlideArray[index];
-    // Fade in
     slideshowImage.style.opacity = 1;
   }, 1000);
 }
@@ -177,7 +119,7 @@ function changeSlideshow(serviceName) {
     case "service1":
       currentSlideArray = slidesService1;
       break;
-    // service2, etc.
+    // case 'service2': ...
     default:
       currentSlideArray = slidesDefault;
       break;
@@ -187,16 +129,15 @@ function changeSlideshow(serviceName) {
 }
 
 /************************************************
- * On Page Load
+ * ON PAGE LOAD
  ************************************************/
 window.addEventListener("load", () => {
-  // Start clock (update every second)
+  // Start clock
   updateTime();
   setInterval(updateTime, 1000);
 
-  // Fetch weather
+  // Fetch weather once and then every 30 min
   fetchWeather();
-  // Update weather every 30 minutes
   setInterval(fetchWeather, 30 * 60 * 1000);
 
   // Slideshow
