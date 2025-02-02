@@ -1,9 +1,9 @@
+// Используем новую логику показа слайдов – проигрываем слайды один раз по порядку
+
 let currentSlides = [];
 let currentSlideIndex = 0;
-let slideshowInterval = null;
-const slideDuration = 5000;
-
-// Объект для хранения предзагруженных изображений
+let playTimeout = null;
+const slideDuration = 5000; // время показа одного слайда (5 сек)
 const preloadedImages = {};
 
 /**
@@ -20,52 +20,60 @@ function preloadSlides(slides) {
 }
 
 /**
- * Инициализирует слайд-шоу с указанным массивом слайдов.
- */
-function initSlideshow(slides) {
-  currentSlides = slides;
-  currentSlideIndex = 0;
-  preloadSlides(slides); // Предзагружаем изображения
-  showSlide(currentSlideIndex);
-  if (slideshowInterval) clearInterval(slideshowInterval);
-  slideshowInterval = setInterval(nextSlide, slideDuration);
-}
-
-/**
- * Отображает слайд по индексу с плавным переходом.
+ * Плавно показывает слайд с заданным индексом.
  */
 function showSlide(index) {
   const slideshowImage = document.getElementById("slideshow-image");
   if (!slideshowImage) return;
   
-  // Плавное затухание с переходом 0.5s
+  // Устанавливаем переход прозрачности 0.5с
+  slideshowImage.style.transition = 'opacity 0.5s ease-in-out';
+  // Начинаем с затемнения
   slideshowImage.style.opacity = 0;
+  
   setTimeout(() => {
     slideshowImage.src = currentSlides[index];
     slideshowImage.style.opacity = 1;
-  }, 500); // задержка 500 мс для плавности
+  }, 500); // через 500 мс меняем изображение
 }
 
 /**
- * Переходит к следующему слайду.
+ * Проигрывает один цикл слайдов (каждый слайд показывается slideDuration мс),
+ * затем вызывает callback.
  */
-function nextSlide() {
-  currentSlideIndex = (currentSlideIndex + 1) % currentSlides.length;
-  showSlide(currentSlideIndex);
-}
-
-/**
- * Меняет набор слайдов и перезапускает слайд-шоу.
- */
-function changeSlides(newSlides) {
-  currentSlides = newSlides;
+function playSlidesOnce(slides, callback) {
+  // Отменяем предыдущий цикл, если он был запущен
+  if (playTimeout) clearTimeout(playTimeout);
+  
+  currentSlides = slides;
+  preloadSlides(slides);
   currentSlideIndex = 0;
-  preloadSlides(newSlides);
+  
+  // Сразу показываем первый слайд
   showSlide(currentSlideIndex);
-  if (slideshowInterval) {
-    clearInterval(slideshowInterval);
-    slideshowInterval = setInterval(nextSlide, slideDuration);
+  
+  const totalSlides = slides.length;
+  
+  // Функция для показа следующего слайда
+  function showNext() {
+    currentSlideIndex++;
+    if (currentSlideIndex < totalSlides) {
+      showSlide(currentSlideIndex);
+      playTimeout = setTimeout(showNext, slideDuration);
+    } else {
+      // Цикл показан полностью – вызываем callback, если он задан
+      if (typeof callback === 'function') callback();
+    }
   }
+  
+  playTimeout = setTimeout(showNext, slideDuration);
 }
 
-export { initSlideshow, changeSlides };
+/**
+ * Останавливает текущий цикл проигрывания слайдов.
+ */
+function cancelPlay() {
+  if (playTimeout) clearTimeout(playTimeout);
+}
+
+export { playSlidesOnce, cancelPlay };

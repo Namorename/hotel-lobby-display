@@ -1,11 +1,10 @@
 import { fetchWeather } from './weather.js';
-import { initSlideshow, changeSlides } from './slideshow.js';
+import { playSlidesOnce, cancelPlay } from './slideshow.js';
 import { services } from './services.js';
 import { startWatchdog } from './watchdog.js';
 
 let serviceListItems = [];
 let currentServiceIndex = 0;
-const slideDuration = 5000;
 
 function updateTime() {
   const now = new Date();
@@ -48,13 +47,15 @@ function initServices() {
   const servicesListEl = document.getElementById("services-list");
   servicesListEl.innerHTML = "";
   serviceListItems = [];
+  
   services.forEach((service, index) => {
     const li = document.createElement("li");
     li.textContent = service.name;
     li.addEventListener("click", () => {
-      // По клику переключаем на выбранный сервис
+      // При клике отменяем текущий цикл и запускаем показ выбранного сервиса
+      cancelPlay();
       currentServiceIndex = index;
-      changeSlides(service.slides);
+      cycleServices();
       highlightService(index);
     });
     servicesListEl.appendChild(li);
@@ -72,17 +73,19 @@ function highlightService(index) {
   });
 }
 
-// Функция цикличного переключения сервисов
+/**
+ * Циклически проигрывает слайды для текущего сервиса, затем переходит к следующему.
+ */
 function cycleServices() {
   const currentService = services[currentServiceIndex];
-  changeSlides(currentService.slides);
   highlightService(currentServiceIndex);
-  // Общее время показа текущего сервиса = количество слайдов * длительность показа одного слайда
-  const totalTime = currentService.slides.length * slideDuration;
-  setTimeout(() => {
+  
+  // Проигрываем слайды выбранного сервиса один раз.
+  playSlidesOnce(currentService.slides, () => {
+    // После окончания цикла переходим к следующему сервису
     currentServiceIndex = (currentServiceIndex + 1) % services.length;
     cycleServices();
-  }, totalTime);
+  });
 }
 
 function initApp() {
@@ -90,7 +93,7 @@ function initApp() {
   initWeather();
   initServices();
   initThemeUpdate();
-  // Запускаем цикличное переключение сервисов, начиная с первой группы ("Default")
+  // Запускаем циклический показ сервисов, начиная с первого (например, "Default")
   currentServiceIndex = 0;
   cycleServices();
   startWatchdog();
