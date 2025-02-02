@@ -14,20 +14,6 @@ function updateTime() {
   document.getElementById("current-time").textContent = `${hh}:${mm}:${ss}`;
 }
 
-function dynamicThemeUpdate() {
-  const now = new Date();
-  const hour = now.getHours();
-  // Если время до 19:00 – дневная тема (фон тёмный, шрифт светлый),
-  // иначе – ночная тема (фон светлый, шрифт тёмный)
-  if (hour < 19) {
-    document.body.classList.remove("night-theme");
-    document.body.classList.add("day-theme");
-  } else {
-    document.body.classList.remove("day-theme");
-    document.body.classList.add("night-theme");
-  }
-}
-
 function initClock() {
   updateTime();
   setInterval(updateTime, 1000);
@@ -36,11 +22,6 @@ function initClock() {
 function initWeather() {
   fetchWeather();
   setInterval(fetchWeather, 30 * 60 * 1000);
-}
-
-function initThemeUpdate() {
-  dynamicThemeUpdate();
-  setInterval(dynamicThemeUpdate, 60 * 1000);
 }
 
 function initServices() {
@@ -92,8 +73,7 @@ function initApp() {
   initClock();
   initWeather();
   initServices();
-  initThemeUpdate();
-  // Запускаем циклический показ сервисов, начиная с первого (например, "Default")
+  // Запускаем циклический показ сервисов, начиная с первой группы (например, "Default")
   currentServiceIndex = 0;
   cycleServices();
   startWatchdog();
