@@ -54,31 +54,23 @@ function updateWeatherUI(data) {
 }
 
 function renderWeatherAnimation(mainWeather) {
-  const player = document.getElementById("weather-lottie");
-  if (!player) return;
+    const player = document.getElementById("weather-lottie");
+    if (!player) return;
+  
+    if (mainWeather.includes("rain")) {
+      player.load("animations/rain.json"); 
+    } else if (mainWeather.includes("cloud")) {
+      player.load("animations/rain.json"); 
+    } else if (mainWeather.includes("clear")) {
+      player.load("animations/rain.json");
+    } else if (mainWeather.includes("snow")) {
+      player.load("animations/rain.json");
+    } else if (mainWeather.includes("thunder")) {
+      player.load("animations/rain.json");
+    } else {
+      player.load("animations/rain.json");
+    }
 
-  const lottieAnimations = {
-    rain:    "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
-    clouds:  "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
-    clear:   "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
-    snow:    "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
-    thunder: "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json",
-    default: "https://assets3.lottiefiles.com/packages/lf20_j7igqfxx.json"
-  };
-
-  if (mainWeather.includes("rain")) {
-    player.load(lottieAnimations.rain);
-  } else if (mainWeather.includes("cloud")) {
-    player.load(lottieAnimations.clouds);
-  } else if (mainWeather.includes("clear")) {
-    player.load(lottieAnimations.clear);
-  } else if (mainWeather.includes("snow")) {
-    player.load(lottieAnimations.snow);
-  } else if (mainWeather.includes("thunder")) {
-    player.load(lottieAnimations.thunder);
-  } else {
-    player.load(lottieAnimations.default);
-  }
 }
 
 export { fetchWeather };
