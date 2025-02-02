@@ -8,10 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <!-- Подключаем стили -->
   <link rel="stylesheet" href="css/styles.css" />
-  <!-- Асинхронная загрузка LottiePlayer -->
-  <script async src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
-<body class="light-theme">
+<body class="day-theme">
   <div class="container">
 
     <!-- LEFT: Slideshow -->
@@ -24,19 +22,8 @@
       <section class="weather-block">
         <div id="current-time"></div>
         <div id="weather-info">
-          <!-- Lottie player для анимации погоды (добавлен loop) -->
-          <lottie-player
-            id="weather-lottie"
-            background="transparent"
-            speed="1"
-            loop
-            autoplay
-            style="width: 120px; height: 120px;"
-          ></lottie-player>
-
           <!-- Статичная иконка погоды -->
           <div id="weather-icon"></div>
-
           <div id="weather-temp"></div>
           <div id="weather-desc"></div>
         </div>

@@ -8,7 +8,6 @@ const preloadedImages = {};
 
 /**
  * Предзагружает все изображения из массива слайдов.
- * Если изображение уже предзагружено, повторно его не загружаем.
  */
 function preloadSlides(slides) {
   slides.forEach(src => {
@@ -26,7 +25,7 @@ function preloadSlides(slides) {
 function initSlideshow(slides) {
   currentSlides = slides;
   currentSlideIndex = 0;
-  preloadSlides(slides); // Предзагружаем все изображения сразу
+  preloadSlides(slides); // Предзагружаем изображения
   showSlide(currentSlideIndex);
   if (slideshowInterval) clearInterval(slideshowInterval);
   slideshowInterval = setInterval(nextSlide, slideDuration);
@@ -38,18 +37,13 @@ function initSlideshow(slides) {
 function showSlide(index) {
   const slideshowImage = document.getElementById("slideshow-image");
   if (!slideshowImage) return;
-
-  // Запускаем плавное исчезновение
-  slideshowImage.style.transition = 'opacity 0.3s ease-in-out';
+  
+  // Плавное затухание
   slideshowImage.style.opacity = 0;
-
-  // После короткой задержки меняем изображение
   setTimeout(() => {
-    // Новое изображение уже предзагружено, поэтому задержки загрузки не будет
     slideshowImage.src = currentSlides[index];
-    // Плавное появление
     slideshowImage.style.opacity = 1;
-  }, 300); // уменьшили задержку до 300 мс для более быстрой смены
+  }, 300);
 }
 
 /**
@@ -66,7 +60,7 @@ function nextSlide() {
 function changeSlides(newSlides) {
   currentSlides = newSlides;
   currentSlideIndex = 0;
-  preloadSlides(newSlides);  // Предзагружаем новые слайды
+  preloadSlides(newSlides);
   showSlide(currentSlideIndex);
   if (slideshowInterval) {
     clearInterval(slideshowInterval);

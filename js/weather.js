@@ -4,7 +4,6 @@ const cacheKey = "weatherData";
 const cacheDuration = 30 * 60 * 1000; // 30 минут
 
 async function fetchWeather() {
-  // Проверка кэша
   const cached = localStorage.getItem(cacheKey);
   if (cached) {
     const cachedData = JSON.parse(cached);
@@ -22,7 +21,6 @@ async function fetchWeather() {
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const data = await response.json();
     updateWeatherUI(data);
-    // Кэшируем данные
     localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data }));
   } catch (err) {
     console.error("Error fetching weather:", err);
@@ -39,40 +37,13 @@ function updateWeatherUI(data) {
   const temp = Math.round(data.main.temp);
   const desc = data.weather[0].description;
   const icon = data.weather[0].icon;
-  const mainWeather = data.weather[0].main.toLowerCase();
-
   document.getElementById("weather-temp").textContent = temp + "°C";
   document.getElementById("weather-desc").textContent = desc;
-
   const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
   document.getElementById("weather-icon").style.backgroundImage = `url(${iconUrl})`;
-
-  renderWeatherAnimation(mainWeather);
-
-  // Уведомляем watchdog о успешном обновлении погоды
-  window.dispatchEvent(new CustomEvent("weatherUpdate"));
-}
-
-function renderWeatherAnimation(mainWeather) {
-    const player = document.getElementById("weather-lottie");
-    if (!player) return;
   
-    if (mainWeather.includes("rain")) {
-      player.load("animations/rain.json"); 
-    } else if (mainWeather.includes("cloud")) {
-      player.load("animations/cloud.json"); 
-    } else if (mainWeather.includes("clear")) {
-      player.load("animations/clear.json");
-    } else if (mainWeather.includes("snow")) {
-      player.load("animations/snow.json");
-    } else if (mainWeather.includes("thunder")) {
-      player.load("animations/thunder.json");
-    } else if (mainWeather.includes("fog")) {
-        player.load("animations/fog.json");
-    } else {
-      player.load("animations/cloud.json");
-    }
-
+  // Уведомляем watchdog об успешном обновлении погоды
+  window.dispatchEvent(new CustomEvent("weatherUpdate"));
 }
 
 export { fetchWeather };

@@ -3,7 +3,10 @@ import { initSlideshow, changeSlides } from './slideshow.js';
 import { services } from './services.js';
 import { startWatchdog } from './watchdog.js';
 
-// Обновление времени
+let serviceListItems = [];
+let currentServiceIndex = 0;
+const slideDuration = 5000;
+
 function updateTime() {
   const now = new Date();
   const hh = String(now.getHours()).padStart(2, "0");
@@ -12,31 +15,18 @@ function updateTime() {
   document.getElementById("current-time").textContent = `${hh}:${mm}:${ss}`;
 }
 
-// Динамическое обновление темы (смена на тёмную после 19:00)
 function dynamicThemeUpdate() {
   const now = new Date();
   const hour = now.getHours();
-  if (hour >= 19) {
-    document.body.classList.remove("light-theme");
-    document.body.classList.add("dark-theme");
+  // Если время до 19:00 – дневная тема (фон тёмный, шрифт светлый),
+  // иначе – ночная тема (фон светлый, шрифт тёмный)
+  if (hour < 19) {
+    document.body.classList.remove("night-theme");
+    document.body.classList.add("day-theme");
   } else {
-    document.body.classList.remove("dark-theme");
-    document.body.classList.add("light-theme");
+    document.body.classList.remove("day-theme");
+    document.body.classList.add("night-theme");
   }
-}
-
-// Инициализация списка услуг (кастомизация сервисов)
-function initServices() {
-  const servicesListEl = document.getElementById("services-list");
-  servicesListEl.innerHTML = ''; // очищаем список
-  services.forEach((service) => {
-    const li = document.createElement("li");
-    li.textContent = service.name;
-    li.addEventListener("click", () => {
-      changeSlides(service.slides);
-    });
-    servicesListEl.appendChild(li);
-  });
 }
 
 function initClock() {
@@ -45,14 +35,54 @@ function initClock() {
 }
 
 function initWeather() {
-  // Начальное получение погоды, затем обновление каждые 30 минут
   fetchWeather();
   setInterval(fetchWeather, 30 * 60 * 1000);
 }
 
 function initThemeUpdate() {
   dynamicThemeUpdate();
-  setInterval(dynamicThemeUpdate, 60 * 1000); // проверяем каждую минуту
+  setInterval(dynamicThemeUpdate, 60 * 1000);
+}
+
+function initServices() {
+  const servicesListEl = document.getElementById("services-list");
+  servicesListEl.innerHTML = "";
+  serviceListItems = [];
+  services.forEach((service, index) => {
+    const li = document.createElement("li");
+    li.textContent = service.name;
+    li.addEventListener("click", () => {
+      // По клику переключаем на выбранный сервис
+      currentServiceIndex = index;
+      changeSlides(service.slides);
+      highlightService(index);
+    });
+    servicesListEl.appendChild(li);
+    serviceListItems.push(li);
+  });
+}
+
+function highlightService(index) {
+  serviceListItems.forEach((item, idx) => {
+    if (idx === index) {
+      item.classList.add("active");
+    } else {
+      item.classList.remove("active");
+    }
+  });
+}
+
+// Функция цикличного переключения сервисов
+function cycleServices() {
+  const currentService = services[currentServiceIndex];
+  changeSlides(currentService.slides);
+  highlightService(currentServiceIndex);
+  // Вычисляем общее время показа текущего сервиса:
+  const totalTime = currentService.slides.length * slideDuration;
+  setTimeout(() => {
+    currentServiceIndex = (currentServiceIndex + 1) % services.length;
+    cycleServices();
+  }, totalTime);
 }
 
 function initApp() {
@@ -60,11 +90,9 @@ function initApp() {
   initWeather();
   initServices();
   initThemeUpdate();
-
-  // Запуск слайд-шоу с набором слайдов по умолчанию (первый сервис)
-  initSlideshow(services[0].slides);
-
-  // Запуск watchdog для мониторинга работоспособности
+  // Запускаем цикличное переключение сервисов, начиная с первого
+  currentServiceIndex = 0;
+  cycleServices();
   startWatchdog();
 }
 
