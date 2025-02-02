@@ -1,32 +1,47 @@
-/* Основные стили */
-body {
+/* Определяем CSS-переменные для тем */
+:root {
+    /* Светлая тема */
+    --bg-light: #e0f2e9;
+    --text-light: #013220;
+    --panel-light: #024d2c;
+    --block-light: rgba(0, 0, 0, 0.15);
+    
+    /* Тёмная тема */
+    --bg-dark: #013220;
+    --text-dark: #e0f2e9;
+    --panel-dark: #024d2c;
+    --block-dark: rgba(255, 255, 255, 0.15);
+  }
+  
+  /* Основные стили */
+  body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
     transition: background-color 0.5s, color 0.5s;
-}
-
-/* Light theme – дневная тема */
-body.light-theme {
-    background-color: #e0f2e9; /* светло-зелёный фон */
-    color: #013220;
-}
-
-/* Dark theme – вечерняя тема */
-body.dark-theme {
-    background-color: #013220; /* тёмно-зелёный фон */
-    color: #e0f2e9;
-}
-
-.container {
+  }
+  
+  /* Светлая тема */
+  body.light-theme {
+    background-color: var(--bg-light);
+    color: var(--text-light);
+  }
+  
+  /* Тёмная тема */
+  body.dark-theme {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+  }
+  
+  .container {
     display: flex;
     flex-direction: row;
     width: 100vw;
     height: 100vh;
-}
-
-/* SLIDESHOW (левая часть) */
-.slideshow-container {
+  }
+  
+  /* SLIDESHOW (левая часть) */
+  .slideshow-container {
     flex: 2;
     position: relative;
     overflow: hidden;
@@ -34,101 +49,124 @@ body.dark-theme {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-#slideshow-image {
+  }
+  
+  #slideshow-image {
     max-width: 100%;
     max-height: 100%;
     transition: opacity 1s ease-in-out;
-}
-
-/* RIGHT PANEL */
-.right-panel {
+  }
+  
+  /* RIGHT PANEL */
+  .right-panel {
     flex: 1;
-    background-color: #024d2c;
+    background-color: var(--panel-light);
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20px;
-}
-
-/* WEATHER BLOCK */
-.weather-block {
-    background-color: rgba(0, 0, 0, 0.2);
+    /* Для тёмной темы будем переопределять фон */
+  }
+  
+  body.dark-theme .right-panel {
+    background-color: var(--panel-dark);
+  }
+  
+  /* WEATHER BLOCK */
+  .weather-block {
+    background-color: var(--block-light);
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 10px;
     text-align: center;
-}
-
-#current-time {
+    transition: background-color 0.5s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  
+  body.dark-theme .weather-block {
+    background-color: var(--block-dark);
+  }
+  
+  #current-time {
     font-size: 2.5em;
     margin-bottom: 10px;
-}
-
-#weather-info {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+  
+  #weather-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-#weather-icon {
+  }
+  
+  #weather-icon {
     width: 60px;
     height: 60px;
     background-size: contain;
     background-repeat: no-repeat;
     margin-bottom: 10px;
-}
-
-#weather-temp {
+  }
+  
+  #weather-temp {
     font-size: 2.5em;
     font-weight: bold;
     margin-bottom: 5px;
-}
-
-#weather-desc {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+  
+  #weather-desc {
     font-size: 1.3em;
     font-style: italic;
-}
-
-/* SERVICES */
-.services-block {
-    background-color: rgba(0, 0, 0, 0.2);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+  
+  /* SERVICES */
+  .services-block {
+    background-color: var(--block-light);
     padding: 10px;
     border-radius: 10px;
-}
-
-.services-block h3 {
+    transition: background-color 0.5s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  
+  body.dark-theme .services-block {
+    background-color: var(--block-dark);
+  }
+  
+  .services-block h3 {
     margin-top: 0;
-}
-
-.services-block ul {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+  
+  .services-block ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-}
-
-.services-block li {
+  }
+  
+  .services-block li {
     padding: 8px;
     margin-bottom: 5px;
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255, 255, 255, 0.2);
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s, transform 0.3s;
-}
-
-.services-block li:hover {
-    background-color: rgba(255,255,255,0.3);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+  
+  .services-block li:hover {
+    background-color: rgba(255, 255, 255, 0.3);
     transform: scale(1.02);
-}
-
-/* Адаптивная верстка */
-@media (max-width: 768px) {
+  }
+  
+  /* Адаптивная верстка */
+  @media (max-width: 768px) {
     .container {
-        flex-direction: column;
+      flex-direction: column;
     }
     .slideshow-container, .right-panel {
-        flex: none;
-        height: 50vh;
+      flex: none;
+      height: 50vh;
     }
-}
+  }
+  
