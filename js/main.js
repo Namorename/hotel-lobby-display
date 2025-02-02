@@ -77,7 +77,7 @@ function cycleServices() {
   const currentService = services[currentServiceIndex];
   changeSlides(currentService.slides);
   highlightService(currentServiceIndex);
-  // Вычисляем общее время показа текущего сервиса:
+  // Общее время показа текущего сервиса = количество слайдов * длительность показа одного слайда
   const totalTime = currentService.slides.length * slideDuration;
   setTimeout(() => {
     currentServiceIndex = (currentServiceIndex + 1) % services.length;
@@ -90,7 +90,7 @@ function initApp() {
   initWeather();
   initServices();
   initThemeUpdate();
-  // Запускаем цикличное переключение сервисов, начиная с первого
+  // Запускаем цикличное переключение сервисов, начиная с первой группы ("Default")
   currentServiceIndex = 0;
   cycleServices();
   startWatchdog();
